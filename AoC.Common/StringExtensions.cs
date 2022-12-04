@@ -14,4 +14,7 @@ public static class StringExtensions
         value
             .Replace("\r", string.Empty)
             .Split("\n\n", StringSplitOptions.RemoveEmptyEntries);
+
+    public static (string, string) SplitInHalf(this string value) =>
+        (value[..(value.Length / 2)], value[(value.Length / 2)..]);
 }

@@ -108,4 +108,27 @@ public static class ArrayExtensions
 
         return -1;
     }
+
+    public static T[][] SplitInBlocksOf<T>(this T[] source, int blockSize)
+    {
+        if (source == null || source.Length == 0 || blockSize < 2)
+        {
+            return Array.Empty<T[]>();
+        }
+
+        if (source.Length % blockSize != 0)
+        {
+            throw new NotSupportedException("Arrays can only be split in blocks of equal sizes. Source length mod blockSize should be zero.");
+        }
+
+        var array = new T[source.Length / blockSize][];
+
+        for (var i = 0; i < source.Length / blockSize; i++)
+        {
+            var start = i * blockSize;
+            array[i] = source[start..(start + blockSize)];
+        }
+
+        return array;
+    }
 }
