@@ -5,6 +5,9 @@ public static class StringExtensions
     public static bool IsNotNullOrEmpty(this string value) =>
         !string.IsNullOrEmpty(value);
 
+    public static bool IsNotNullOrWhitespace(this string value) =>
+        !string.IsNullOrWhiteSpace(value);
+
     public static string[] SplitOnNewLine(this string value) =>
         value
             .Replace("\r", string.Empty)
