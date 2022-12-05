@@ -72,7 +72,7 @@ public readonly struct Line
     {
         if (From.X != To.X && From.Y != To.Y && Math.Abs(From.Y - To.Y) != Math.Abs(From.X - To.X))
         {
-            throw new InvalidOperationException("Only points for horizontal, vertical or 45 degree lines kan be determined");
+            throw new InvalidOperationException("Only points for horizontal, vertical or 45 degree lines can be determined");
         }
 
         List<Point> points = new() { From };

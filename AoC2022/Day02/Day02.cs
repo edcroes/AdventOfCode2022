@@ -51,7 +51,7 @@ public class Day02 : IMDay
             'X' => _hands.GetPrevious(leftHand),
             'Y' => leftHand,
             'Z' => _hands.GetNext(leftHand),
-            _ => throw new NotSupportedException("That's a wierd outcome")
+            _ => throw new NotSupportedException("That's a weird outcome")
         };
     }
 
