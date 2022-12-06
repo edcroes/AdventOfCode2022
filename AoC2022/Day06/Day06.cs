@@ -7,16 +7,16 @@ public class Day06 : IMDay
     public async Task<string> GetAnswerPart1()
     {
         var input = await GetInput();
-        return GetUniqueRangeIndex(input, 4).ToString();
+        return GetUniqueRangeMarker(input, 4).ToString();
     }
 
     public async Task<string> GetAnswerPart2()
     {
         var input = await GetInput();
-        return GetUniqueRangeIndex(input, 14).ToString();
+        return GetUniqueRangeMarker(input, 14).ToString();
     }
 
-    private static int GetUniqueRangeIndex(string value, int numberOfUniqueCharacters)
+    private static int GetUniqueRangeMarker(string value, int numberOfUniqueCharacters)
     {
         for (var i = numberOfUniqueCharacters; i <= value.Length; i++)
         {
