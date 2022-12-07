@@ -131,4 +131,25 @@ public static class ArrayExtensions
 
         return array;
     }
+
+    public static void Deconstruct<T>(this T[] source, out T? value1, out T? value2)
+    {
+        value1 = source.ElementAtOrDefault(0);
+        value2 = source.ElementAtOrDefault(1);
+    }
+
+    public static void Deconstruct<T>(this T[] source, out T? value1, out T? value2, out T? value3)
+    {
+        value1 = source.ElementAtOrDefault(0);
+        value2 = source.ElementAtOrDefault(1);
+        value3 = source.ElementAtOrDefault(2);
+    }
+
+    public static void Deconstruct<T>(this T[] source, out T? value1, out T? value2, out T? value3, out T? value4)
+    {
+        value1 = source.ElementAtOrDefault(0);
+        value2 = source.ElementAtOrDefault(1);
+        value3 = source.ElementAtOrDefault(2);
+        value4 = source.ElementAtOrDefault(3);
+    }
 }
