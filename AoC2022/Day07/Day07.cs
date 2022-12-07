@@ -50,8 +50,8 @@ public class Day07 : IMDay
                     current = dir switch
                     {
                         "/" => root,
-                        ".." => current!.Parent,
-                        _ => current!.Containers.Single(c => c.Name == dir)
+                        ".." => current.Parent ?? root,
+                        _ => current.Containers.Single(c => c.Name == dir)
                     };
                 }
             }
@@ -60,7 +60,7 @@ public class Day07 : IMDay
                 var (left, name) = line.Split(' ');
                 if (left == "dir")
                 {
-                    if (!current!.Containers.Any(c => c.Name == name))
+                    if (!current.Containers.Any(c => c.Name == name))
                     {
                         Container dir = new() { Name = name!, Parent = current };
                         current.Containers.Add(dir);
@@ -70,7 +70,7 @@ public class Day07 : IMDay
                 {
                     var size = long.Parse(left!);
 
-                    if (!current!.Leaves.Any(c => c.Name == name))
+                    if (!current.Leaves.Any(c => c.Name == name))
                     {
                         Leaf file = new(name!, size);
                         current.Leaves.Add(file);
