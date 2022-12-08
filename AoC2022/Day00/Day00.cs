@@ -90,7 +90,6 @@ public class Day00 : IMDay
         }
 
         return builder.ToString();
-
     }
 
     private async Task<Instruction[]> GetInstructions() =>
