@@ -101,6 +101,23 @@ public static class MapExtensions
         return true;
     }
 
+    public static bool Any<T>(this Map<T> map, Func<Point, T, bool> predicate)
+    {
+        for (var y = 0; y < map.SizeY; y++)
+        {
+            for (var x = 0; x < map.SizeX; x++)
+            {
+                var point = new Point(x, y);
+                if (predicate(point, map.GetValue(point)))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public static Map<T> GetSubMap<T>(this Map<T> map, Point from, Point to)
     {
         if (from.X < 0 || from.X >= map.SizeX || from.Y < 0 || from.Y >= map.SizeY)
