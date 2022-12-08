@@ -1,4 +1,6 @@
-﻿var allDays = GetDays();
+﻿using TextCopy;
+
+var allDays = GetDays();
 var dayType = allDays.Last();
 
 if (args is not null && args.Length > 0 && int.TryParse(args[0], out int day))
@@ -14,13 +16,17 @@ Console.WriteLine(dayType.Name);
 Console.WriteLine("-----");
 
 stopwatch.Start();
-Console.WriteLine($"Answer Part 1: {await dayInstance.GetAnswerPart1()}");
+var part1 = await dayInstance.GetAnswerPart1();
+Console.WriteLine($"Answer Part 1: {part1}");
 var part1TimeTaken = stopwatch.Elapsed;
 
 stopwatch.Restart();
-Console.WriteLine($"Answer Part 2: {await dayInstance.GetAnswerPart2()}");
+var part2 = await dayInstance.GetAnswerPart2();
+Console.WriteLine($"Answer Part 2: {part2}");
 var part2TimeTaken = stopwatch.Elapsed;
 stopwatch.Stop();
+
+ClipboardService.SetText(part2 == "TODO" ? part1 : part2);
 
 Console.WriteLine();
 Console.WriteLine($"Part 1 took: {part1TimeTaken}");

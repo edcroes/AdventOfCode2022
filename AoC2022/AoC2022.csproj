@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="TextCopy" Version="6.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AoC.Common\AoC.Common.csproj" />
   </ItemGroup>
 
