@@ -9,4 +9,12 @@ public static class ListExtensions
             list.Remove(item);
         }
     }
+
+    public static void AddIfNotContains<T>(this List<T> list, T item)
+    {
+        if (!list.Contains(item))
+        {
+            list.Add(item);
+        }
+    }
 }
