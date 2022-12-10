@@ -16,7 +16,7 @@ public class Day09 : IMDay
     public async Task<string> GetAnswerPart1()
     {
         var input = await GetInstructions();
-        List<Point> allTailPoints = new() { new(0, 0) };
+        HashSet<Point> allTailPoints = new() { new(0, 0) };
 
         Point head = new(0, 0), tail = new(0, 0);
 
@@ -26,7 +26,7 @@ public class Day09 : IMDay
             {
                 head = head.Add(_movement[instruction.Type]);
                 tail = GetNextTailPosition(head, tail);
-                allTailPoints.AddIfNotContains(tail);
+                allTailPoints.Add(tail);
             }
         }
 
@@ -36,7 +36,7 @@ public class Day09 : IMDay
     public async Task<string> GetAnswerPart2()
     {
         var input = await GetInstructions();
-        List<Point> allTailPoints = new() { new(0, 0) };
+        HashSet<Point> allTailPoints = new() { new(0, 0) };
         var rope = new Point[10];
 
         foreach (var instruction in input)
@@ -50,7 +50,7 @@ public class Day09 : IMDay
                     rope[knot] = GetNextTailPosition(rope[knot - 1], rope[knot]);
                     if (knot == rope.Length - 1)
                     {
-                        allTailPoints.AddIfNotContains(rope[knot]);
+                        allTailPoints.Add(rope[knot]);
                     }
                 }
             }
