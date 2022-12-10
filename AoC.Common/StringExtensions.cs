@@ -1,11 +1,13 @@
-﻿namespace AoC.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace AoC.Common;
 
 public static class StringExtensions
 {
-    public static bool IsNotNullOrEmpty(this string value) =>
+    public static bool IsNotNullOrEmpty([AllowNull][NotNullWhen(true)] this string value) =>
         !string.IsNullOrEmpty(value);
 
-    public static bool IsNotNullOrWhitespace(this string value) =>
+    public static bool IsNotNullOrWhitespace([AllowNull][NotNullWhen(true)] this string value) =>
         !string.IsNullOrWhiteSpace(value);
 
     public static string[] SplitOnNewLine(this string value) =>
