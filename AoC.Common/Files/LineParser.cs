@@ -14,6 +14,12 @@ public static class LineParser
             .Select(c => int.Parse(c.ToString()))
             .ToArray();
 
+    public static long[] ToLongArray(this string line, string separator) =>
+        line
+            .Split(separator, StringSplitOptions.RemoveEmptyEntries)
+            .Select(c => long.Parse(c.ToString()))
+            .ToArray();
+
     public static bool[] ToBoolArray(this string line, char trueValue) =>
         line
             .ToCharArray()
