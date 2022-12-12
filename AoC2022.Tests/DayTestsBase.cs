@@ -16,14 +16,20 @@ public abstract class DayTestsBase<T> where T : IMDay, new()
     [TestMethod]
     public async Task Part1Test()
     {
-        var answerPart1 = await _dayToTest.GetAnswerPart1();
-        Assert.AreEqual(_expectedAnswerPart1, answerPart1);
+        if (_expectedAnswerPart1 != "TODO")
+        {
+            var answerPart1 = await _dayToTest.GetAnswerPart1();
+            Assert.AreEqual(_expectedAnswerPart1, answerPart1);
+        }
     }
 
     [TestMethod]
     public async Task Part2Test()
     {
-        var answerPart2 = await _dayToTest.GetAnswerPart2();
-        Assert.AreEqual(_expectedAnswerPart2, answerPart2);
+        if (_expectedAnswerPart2 != "TODO")
+        {
+            var answerPart2 = await _dayToTest.GetAnswerPart2();
+            Assert.AreEqual(_expectedAnswerPart2, answerPart2);
+        }
     }
 }
