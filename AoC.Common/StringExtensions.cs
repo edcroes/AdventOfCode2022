@@ -7,8 +7,14 @@ public static class StringExtensions
     public static bool IsNotNullOrEmpty([AllowNull][NotNullWhen(true)] this string value) =>
         !string.IsNullOrEmpty(value);
 
+    public static bool IsNullOrEmpty([AllowNull][NotNullWhen(false)] this string value) =>
+        string.IsNullOrEmpty(value);
+
     public static bool IsNotNullOrWhitespace([AllowNull][NotNullWhen(true)] this string value) =>
         !string.IsNullOrWhiteSpace(value);
+
+    public static bool IsNullOrWhitespace([AllowNull][NotNullWhen(false)] this string value) =>
+        string.IsNullOrWhiteSpace(value);
 
     public static string[] SplitOnNewLine(this string value) =>
         value

@@ -1,4 +1,4 @@
-﻿namespace AoC.Common;
+﻿namespace AoC.Common.AoCMath;
 
 public static class AoCMath
 {
@@ -38,7 +38,7 @@ public static class AoCMath
         values.Aggregate(GreatestCommonDivisor);
 
     public static long LeastCommonMultiple(long a, long b) =>
-        (a * b) / GreatestCommonDivisor(a, b);
+        a * b / GreatestCommonDivisor(a, b);
 
     public static long LeastCommonMultiple(IEnumerable<long> values) =>
         values.Aggregate(LeastCommonMultiple);
