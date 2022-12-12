@@ -36,4 +36,42 @@ public static class MapGraphExtensions
 
         return currentCostPerPoint.GetValue(toPoint);
     }
+
+    public static int GetShortestPath<T>(this Map<T> map, Point fromPoint, Point toPoint, Func<Map<T>, Point, Point, bool> canMoveTo)
+    {
+        var currentCostPerPoint = new Map<int>(map.SizeX, map.SizeY);
+        HashSet<Point> visitedPoints = new();
+        PriorityQueue<Point, int> openPositions = new();
+        openPositions.Enqueue(fromPoint, 0);
+
+        while (currentCostPerPoint.GetValue(toPoint) == 0)
+        {
+            if (openPositions.Count == 0)
+            {
+                // Dead end, no route possible
+                return int.MaxValue;
+            }
+
+            var point = openPositions.Dequeue();
+            var cost = currentCostPerPoint.GetValue(point);
+
+            visitedPoints.Add(point);
+            var nextPoints = map
+                .GetStraightNeighbors(point)
+                .Where(p => !visitedPoints.Contains(p) && canMoveTo(map, point, p));
+
+            foreach (var nextPoint in nextPoints)
+            {
+                var nextCost = cost + 1;
+                var currentCost = currentCostPerPoint.GetValue(nextPoint);
+                if (currentCost == 0 || nextCost < currentCost)
+                {
+                    currentCostPerPoint.SetValue(nextPoint, nextCost);
+                    openPositions.Enqueue(nextPoint, nextCost);
+                }
+            }
+        }
+
+        return currentCostPerPoint.GetValue(toPoint);
+    }
 }
