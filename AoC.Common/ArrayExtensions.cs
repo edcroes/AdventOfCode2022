@@ -109,6 +109,9 @@ public static class ArrayExtensions
         return -1;
     }
 
+    public static int IndexOf<T>(this T[] array, T value) =>
+        Array.IndexOf(array, value);
+
     public static T[][] SplitInBlocksOf<T>(this T[] source, int blockSize)
     {
         if (source == null || source.Length == 0 || blockSize < 2)

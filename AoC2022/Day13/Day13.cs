@@ -27,7 +27,7 @@ public class Day13 : IMDay
             .OrderBy(l => l)
             .ToArray();
 
-        var result = (Array.IndexOf(ordered, divider1) + 1) * (Array.IndexOf(ordered, divider2) + 1);
+        var result = (ordered.IndexOf(divider1) + 1) * (ordered.IndexOf(divider2) + 1);
 
        return result.ToString();
     }
@@ -39,36 +39,31 @@ public class Day13 : IMDay
                 .ToArray())
             .ToArray();
 
-    private static ListItemList ParseList(string line)
+    private static ListItemList ParseList(string line) =>
+        ParseList(line
+            .Replace("[", ",[,")
+            .Replace("]", ",],")
+            .Split(',', StringSplitOptions.RemoveEmptyEntries));
+
+    private static ListItemList ParseList(string[] parts)
     {
         // Should have used:
         // dynamic signal = JsonConvert.DeserializeObject(line);
         // Way easier
-
         ListItemList current = new();
-        if (line.Length < 2 || line[0] != '[' || line[^1] != ']')
-            throw new ArgumentException($"Invalid list '{line}'", nameof(line));
 
-        for (var i = 1; i < line.Length - 1; i++)
+        for (var i = 1; i < parts.Length - 1; i++)
         {
-            var value = line[i];
-
-            if (value == '[')
+            var value = parts[i];
+            if (value == "[")
             {
-                var closingIndex = line.IndexOfClosingTag(i, '[', ']');
-                current.Add(ParseList(line[i..(closingIndex +1)]));
+                var closingIndex = parts.IndexOfClosingTag(i, "[", "]");
+                current.Add(ParseList(parts[i..(closingIndex +1)]));
                 i = closingIndex;
             }
-            else if (Char.IsNumber(value))
+            else
             {
-                var intValue = value - 48;
-                if (Char.IsNumber(line[i + 1]))
-                {
-                    intValue *= 10;
-                    intValue += line[i + 1] - 48;
-                    i++;
-                }
-                current.Add(new IntListItem(intValue));
+                current.Add(new IntListItem(int.Parse(parts[i])));
             }
         }
 
