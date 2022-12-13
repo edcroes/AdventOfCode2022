@@ -132,6 +132,30 @@ public static class ArrayExtensions
         return array;
     }
 
+    public static int IndexOfClosingTag<T>(this T[] source, int openTagIndex, T openTag, T closingTag)
+    {
+        if (source is null)
+            throw new ArgumentNullException(nameof(source));
+
+        if (openTagIndex >= source.Length || openTagIndex < 0)
+            throw new IndexOutOfRangeException(nameof(openTagIndex));
+
+        var depth = 0;
+        for (var i = openTagIndex + 1; i < source.Length; i++)
+        {
+            if (source[i].Equals(openTag))
+                depth++;
+            else if (source[i].Equals(closingTag))
+            {
+                if (depth == 0)
+                    return i;
+                depth--;
+            }
+        }
+
+        return -1;
+    }
+
     public static void Deconstruct<T>(this T[] source, out T? value1, out T? value2)
     {
         value1 = source.ElementAtOrDefault(0);

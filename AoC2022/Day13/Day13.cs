@@ -49,45 +49,26 @@ public class Day13 : IMDay
         if (line.Length < 2 || line[0] != '[' || line[^1] != ']')
             throw new ArgumentException($"Invalid list '{line}'", nameof(line));
 
-        var depth = 0;
-        var newList = string.Empty;
-
         for (var i = 1; i < line.Length - 1; i++)
         {
             var value = line[i];
 
             if (value == '[')
             {
-                depth++;
+                var closingIndex = line.IndexOfClosingTag(i, '[', ']');
+                current.Add(ParseList(line[i..(closingIndex +1)]));
+                i = closingIndex;
             }
-            else if (value == ']')
+            else if (Char.IsNumber(value))
             {
-                depth--;
-            }
-            
-            if (depth == 0)
-            {
-                if (Char.IsNumber(value))
+                var intValue = value - 48;
+                if (Char.IsNumber(line[i + 1]))
                 {
-                    var intValue = value - 48;
-                    if (Char.IsNumber(line[i + 1]))
-                    {
-                        intValue *= 10;
-                        intValue += line[i + 1] - 48;
-                        i++;
-                    }
-                    current.Add(new IntListItem(intValue));
+                    intValue *= 10;
+                    intValue += line[i + 1] - 48;
+                    i++;
                 }
-                else if(value != ',')
-                {
-                    newList += value;
-                    current.Add(ParseList(newList));
-                    newList = string.Empty;
-                }
-            }
-            else
-            {
-                newList += value;
+                current.Add(new IntListItem(intValue));
             }
         }
 

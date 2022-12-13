@@ -28,4 +28,7 @@ public static class StringExtensions
 
     public static (string, string) SplitInHalf(this string value) =>
         (value[..(value.Length / 2)], value[(value.Length / 2)..]);
+
+    public static int IndexOfClosingTag(this string value, int openTagIndex, char openTag, char closingTag) =>
+        value.ToCharArray().IndexOfClosingTag(openTagIndex, openTag, closingTag);
 }
