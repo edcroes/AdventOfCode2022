@@ -31,7 +31,8 @@ public class Map<T>
         Array.Copy(grid, _map, grid.Length);
     }
 
-    public T? GetValueOrDefault(Point point) => GetValueOrDefault(point.X, point.Y);
+    public T? GetValueOrDefault(Point point, T? defaultValue = default) =>
+        GetValueOrDefault(point.X, point.Y, defaultValue);
 
     public T? GetValueOrDefault(int x, int y, T? defaultValue = default)
     {
@@ -67,6 +68,23 @@ public class Map<T>
         while (fromX <= toX && moveX == 1 || fromX >= toX && moveX == -1 || fromY <= toY && moveY == 1 || fromY >= toY && moveY == -1);
 
         return row.ToArray();
+    }
+
+    public void SetLine(Point from, Point to, T value) =>
+        SetLine(from.X, from.Y, to.X, to.Y, value);
+
+    public void SetLine(int fromX, int fromY, int toX, int toY, T value)
+    {
+        var moveY = fromY == toY ? 0 : fromY > toY ? -1 : 1;
+        var moveX = fromX == toX ? 0 : fromX > toX ? -1 : 1;
+
+        do
+        {
+            SetValue(fromX, fromY, value);
+            fromY += moveY;
+            fromX += moveX;
+        }
+        while (fromX <= toX && moveX == 1 || fromX >= toX && moveX == -1 || fromY <= toY && moveY == 1 || fromY >= toY && moveY == -1);
     }
 
     public void RotateRight()
@@ -287,5 +305,16 @@ public class Map<T>
         var newMapArray = new T[SizeX, SizeY];
         Array.Copy(_map, newMapArray, _map.Length);
         return new(newMapArray);
+    }
+
+    public void FillWith(T defaultValue)
+    {
+        for (int y = 0; y < SizeY; y++)
+        {
+            for (int x = 0; x < SizeX; x++)
+            {
+                SetValue(x, y, defaultValue);
+            }
+        }
     }
 }

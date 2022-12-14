@@ -47,9 +47,9 @@ public class Day13 : IMDay
 
     private static ListItemList ParseList(string[] parts)
     {
-        // Should have used:
+        // Other easier option:
         // dynamic signal = JsonConvert.DeserializeObject(line);
-        // Way easier
+
         ListItemList current = new();
 
         for (var i = 1; i < parts.Length - 1; i++)
