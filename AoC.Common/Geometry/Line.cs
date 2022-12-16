@@ -94,4 +94,7 @@ public readonly struct Line
             point.X <= Math.Max(From.X, To.X) &&
             point.Y >= Math.Min(From.Y, To.Y) &&
             point.Y <= Math.Max(From.Y, To.Y);
+
+    public override string ToString() =>
+        $"{From.X},{From.Y} -> {To.X},{To.Y}";
 }
