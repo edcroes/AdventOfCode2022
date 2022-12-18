@@ -25,4 +25,11 @@ public static class LineParser
             .ToCharArray()
             .Select(c => c == trueValue)
             .ToArray();
+
+    public static Point3D ToPoint3D(this string line, string separator)
+    {
+        var (x, y, z) = line.ToIntArray(separator);
+        return new(x, y, z);
+    }
+            
 }
