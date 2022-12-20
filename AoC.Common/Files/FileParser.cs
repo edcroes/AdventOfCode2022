@@ -20,6 +20,12 @@ public static class FileParser
             .Select(int.Parse)
             .ToArray();
 
+    public static async Task<long[]> ReadLinesAsLong(string FilePath) =>
+        (await File.ReadAllLinesAsync(FilePath))
+            .Where(l => l.IsNotNullOrEmpty())
+            .Select(long.Parse)
+            .ToArray();
+
     public static async Task<string[]> ReadLinesAsString(string filePath) =>
         (await File.ReadAllLinesAsync(filePath))
             .Where(l => l.IsNotNullOrEmpty())
