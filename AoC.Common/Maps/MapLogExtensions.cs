@@ -24,6 +24,6 @@ public static class MapLogExtensions
             builder.AppendLine();
         }
 
-        return builder.ToString().Trim();
+        return builder.ToString();
     }
 }

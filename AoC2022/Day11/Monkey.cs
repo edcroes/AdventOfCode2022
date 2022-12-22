@@ -43,7 +43,7 @@ public record class Monkey(
         var trueReceiver = int.Parse(input[4]["    If true: throw to monkey ".Length..]);
         var falseReceiver = int.Parse(input[5]["    If false: throw to monkey ".Length..]);
 
-        var getNewValue = ExpressionParser.ParseSimpleMathExpression<long>(operation);
+        var getNewValue = ExpressionParser.ParseSimpleMathExpressionWithOneInput<long>(operation);
 
         Monkey monkey = new(id, getNewValue, lowerWorryLevel, divisibleBy, trueReceiver, falseReceiver, getMonkeyById);
         monkey.Items.AddRange(startingItems);
