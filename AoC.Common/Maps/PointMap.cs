@@ -4,8 +4,30 @@ public class PointMap<T>
 {
     private readonly Dictionary<Point, T> _points = new();
 
+    public PointMap() { }
+
+    public PointMap(T[][] values, bool insertDefaultValue = false)
+    {
+        for (var y = 0; y < values.Length; y++)
+        {
+            for (var x = 0; x < values.Min(l => l.Length); x++)
+            {
+                if ((values[y][x] != null && !values[y][x]!.Equals(default)) || insertDefaultValue)
+                {
+                    SetValue(new(x, y), values[y][x]);
+                }
+            }
+        }
+    }
+
     public List<Point> Points =>
         _points.Keys.ToList();
+
+    public T GetValue(int x, int y) =>
+        GetValue(new(x, y));
+
+    public T GetValue(Point point) =>
+        _points.TryGetValue(point, out T? value) ? value : throw new ArgumentOutOfRangeException(nameof(point));
 
     public T? GetValueOrDefault(int x, int y, T defaultValue = default) =>
         GetValueOrDefault(new(x, y), defaultValue);

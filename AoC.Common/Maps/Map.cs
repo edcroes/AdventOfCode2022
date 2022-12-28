@@ -302,7 +302,7 @@ public class Map<T>
 
     public Map<T> Clone()
     {
-        var newMapArray = new T[SizeX, SizeY];
+        var newMapArray = new T[SizeY, SizeX];
         Array.Copy(_map, newMapArray, _map.Length);
         return new(newMapArray);
     }
