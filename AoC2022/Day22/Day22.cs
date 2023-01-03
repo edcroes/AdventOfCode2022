@@ -19,10 +19,11 @@ public partial class Day22 : IMDay
     public async Task<string> GetAnswerPart1()
     {
         var (map, instructions) = await GetInput();
+
         var currentPosition = map.First((p, v) => v == Path);
         (currentPosition, var move) = GetEndPosition(map, instructions, currentPosition, (move, curPos) => GetWrappedNextPosition(map, move, curPos));
-
-        var answer = 1000 * (currentPosition.Y + 1) + 4 * (currentPosition.X + 1) + _movement.IndexOf(move);
+        
+        var answer = GetAnswer(currentPosition, move);
         return answer.ToString();
     }
 
@@ -36,9 +37,12 @@ public partial class Day22 : IMDay
         var currentPosition = map.First((p, v) => v == Path);
         (currentPosition, var move) = GetEndPosition(map, instructions, currentPosition, (move, curPos) => GetWrappedNextPositionOnCube(faces, move, curPos));
 
-        var answer = 1000 * (currentPosition.Y + 1) + 4 * (currentPosition.X + 1) + _movement.IndexOf(move);
+        var answer = GetAnswer(currentPosition, move);
         return answer.ToString();
     }
+
+    private static int GetAnswer(Point currentPosition, Point move) =>
+        1000 * (currentPosition.Y + 1) + 4 * (currentPosition.X + 1) + _movement.IndexOf(move);
 
     private static (Point position, Point move) GetEndPosition(Map<char> map, Instruction[] instructions, Point currentPosition, Func<Point, Point, (Point position, Point move)> getNextPosition)
     {
@@ -48,7 +52,9 @@ public partial class Day22 : IMDay
         {
             if (instruction.Turn)
             {
-                move = _movement[(_movement.IndexOf(move) + instruction.Distance + _movement.Length) % _movement.Length];
+                move = instruction.Distance == -1
+                    ? GetPreviousMovement(move)
+                    : GetNextMovement(move);
             }
             else
             {
@@ -100,22 +106,22 @@ public partial class Day22 : IMDay
 
         if (side.GetNext() == otherFace.Side)
         {
-            nextMove = _movement[(_movement.IndexOf(move) + 3) % _movement.Length];
+            nextMove = GetPreviousMovement(move);
             fromZero = face.RotateLeft(currentPosition).Subtract(face.LeftUpperCorner);
         }
         else if (side.GetPrevious() == otherFace.Side)
         {
-            nextMove = _movement[(_movement.IndexOf(move) + 1) % _movement.Length];
+            nextMove = GetNextMovement(move);
             fromZero = face.RotateRight(currentPosition).Subtract(face.LeftUpperCorner);
         }
         else if (otherFace.Side == side)
         {
-            nextMove = _movement[(_movement.IndexOf(move) + 2) % _movement.Length];
+            nextMove = GetNextMovement(GetNextMovement(move));
         }
 
-        if ((otherFace.Side == side.GetNext().GetNext() && side is Side.Right or Side.Left) ||
-            (otherFace.Side == side && side is Side.Top or Side.Bottom) ||
-            ((otherFace.Side == side.GetNext() || otherFace.Side == side.GetPrevious()) && otherFace.Side is Side.Right or Side.Left))
+        if (IsOppositeSideAndLeftOrRight(side, otherFace.Side) ||
+            IsSameSideAndTopOrBottom(side, otherFace.Side) ||
+            IsSideOneRotationAwayAndOtherIsRightOrLeft(side, otherFace.Side))
         {
             next = new(otherFace.Face.LeftUpperCorner.X + (face.Size - 1 - fromZero.X), otherFace.Face.LeftUpperCorner.Y + fromZero.Y);
         }
@@ -126,6 +132,21 @@ public partial class Day22 : IMDay
 
         return (next, nextMove);
     }
+
+    private static bool IsSideOneRotationAwayAndOtherIsRightOrLeft(Side left, Side right) =>
+        (right == left.GetNext() || right == left.GetPrevious()) && right is Side.Right or Side.Left;
+
+    private static bool IsSameSideAndTopOrBottom(Side left, Side right) =>
+        right == left && left is Side.Top or Side.Bottom;
+
+    private static bool IsOppositeSideAndLeftOrRight(Side left, Side right) =>
+        right == left.GetNext().GetNext() && left is Side.Right or Side.Left;
+
+    private static Point GetNextMovement(Point move) =>
+        _movement[(_movement.IndexOf(move) + 1) % _movement.Length];
+
+    private static Point GetPreviousMovement(Point move) =>
+        _movement[(_movement.IndexOf(move) + _movement.Length - 1) % _movement.Length];
 
     private async Task<(Map<char>, Instruction[])> GetInput()
     {
