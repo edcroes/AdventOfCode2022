@@ -55,6 +55,26 @@ public class CubeFolding<T>
         }
     }
 
+    /// <summary>
+    /// Tries to get diagonal neighbors for the side.
+    /// So for side ~~ it tries to find one of the two possible : sides.
+    /// 
+    /// So if ~~ is Top then:
+    /// +--+  +--+
+    /// |  :  :  |
+    /// +--+~~+--+
+    /// |  |  |  |
+    /// +--+--+--+
+    /// 
+    /// If ~~ is Right then:
+    /// +--+--+
+    /// |  |  |
+    /// +--+..+
+    /// |  ~
+    /// +--+..+
+    /// |  |  |
+    /// +--+--+
+    /// </summary>
     private static void GetIndirectFaceReferences(Face face)
     {
         foreach (Side side in Enum.GetValues(typeof(Side)))
